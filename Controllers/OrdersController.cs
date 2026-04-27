@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OrderFlow.API.DTOs.Requests;
 using OrderFlow.API.Enums;
 using OrderFlow.API.Interfaces.Services;
+using OrderFlow.API.Filters;
 
 namespace OrderFlow.API.Controllers
 {
@@ -18,6 +19,14 @@ namespace OrderFlow.API.Controllers
             _orderService = orderService;
         }
 
+        // GET api/orders
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var orders = await _orderService.GetAllOrdersAsync();
+            return Ok(orders);
+        }
+
         // GET api/orders/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -28,6 +37,7 @@ namespace OrderFlow.API.Controllers
 
         // POST api/orders
         [HttpPost]
+        [PreventDuplicateRequests]
         public async Task<IActionResult> Create([FromBody] CreateOrderRequest request)
         {
             var order = await _orderService.CreateOrderAsync(request);

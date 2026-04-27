@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OrderFlow.API.DTOs.Requests;
 using OrderFlow.API.Enums;
 using OrderFlow.API.Interfaces.Services;
+using OrderFlow.API.Filters;
 
 namespace OrderFlow.API.Controllers
 {
@@ -51,6 +52,7 @@ namespace OrderFlow.API.Controllers
 
         // POST api/customers
         [HttpPost]
+        [PreventDuplicateRequests]
         public async Task<IActionResult> Create([FromBody] CreateCustomerRequest request)
         {
             var customer = await _customerService.CreateCustomerAsync(request);

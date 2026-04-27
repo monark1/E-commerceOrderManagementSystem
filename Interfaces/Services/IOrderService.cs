@@ -7,6 +7,7 @@ namespace OrderFlow.API.Interfaces.Services
 {
     public interface IOrderService
     {
+        Task<List<OrderDto>> GetAllOrdersAsync();
         Task<OrderDto> GetOrderByIdAsync(int id);
         Task<List<OrderDto>> GetCustomerOrdersAsync(int customerId, OrderStatus? status);
         Task<OrderDto> CreateOrderAsync(CreateOrderRequest request);

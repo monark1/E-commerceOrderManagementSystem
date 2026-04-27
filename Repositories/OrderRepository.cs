@@ -1,6 +1,4 @@
-﻿// Repositories/OrderRepository.cs
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using OrderFlow.API.Data;
 using OrderFlow.API.Enums;
 using OrderFlow.API.Interfaces.Repositories;
@@ -15,6 +13,25 @@ namespace OrderFlow.API.Repositories
         public OrderRepository(AppDbContext context)
         {
             _context = context;
+        }
+
+
+        public Task DetachAllAsync()
+        {
+            foreach (var entry in _context.ChangeTracker.Entries())
+                entry.State = EntityState.Detached;
+
+            return Task.CompletedTask;
+        }
+
+        public async Task<List<Order>> GetAllAsync()
+        {
+            return await _context.Orders
+                .Include(o => o.Customer)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .OrderByDescending(o => o.CreatedAt)
+                .ToListAsync();
         }
 
         // Basic fetch — no related data loaded

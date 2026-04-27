@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OrderFlow.API.DTOs.Requests;
 using OrderFlow.API.Interfaces.Services;
+using OrderFlow.API.Filters;
 
 namespace OrderFlow.API.Controllers
 {
@@ -46,6 +47,7 @@ namespace OrderFlow.API.Controllers
 
         // POST api/products
         [HttpPost]
+        [PreventDuplicateRequests]
         public async Task<IActionResult> Create([FromBody] CreateProductRequest request)
         {
             var product = await _productService.CreateProductAsync(request);
