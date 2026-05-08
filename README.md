@@ -1,4 +1,4 @@
-# OrderFlow API
+# E-Commerce Order Management System
 
 > E-Commerce Order Management System — built as part of internship evaluation at Windmöller & Hölscher India Pvt. Ltd.
 
